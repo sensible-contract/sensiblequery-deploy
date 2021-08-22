@@ -1,0 +1,15 @@
+# # btc
+# blocks: "./blocks"
+# magic: "f9beb4d9"
+
+# # bsv-test
+# blocks: "./blocks-bsv-test"
+# magic: "0b110907"
+
+# bsv
+# "./blocks-bsv"
+blocks: "/bitcoin/bitcoin-sv-blocks/blocks"
+magic: "f9beb4d9"
+zmq: "tcp://172.31.88.41:16331"
+rpc: "http://172.31.88.41:16332"
+rpc_auth: "ss:XXXXXXXXXXXXXXXX"

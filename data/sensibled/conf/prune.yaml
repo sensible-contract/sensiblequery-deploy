@@ -1,0 +1,8 @@
+# 清理非sensible的txraw
+txraw: true
+
+# 清理非sensible且无地址的锁定脚本
+pkscript: true
+
+# 清理所有的解锁脚本
+scriptsig: true
