@@ -1,0 +1,9 @@
+# # btc
+# zmq: "tcp://172.31.88.41:18331"
+
+# # bsv-test
+# zmq: "tcp://172.31.88.41:17331"
+
+# bsv
+rpc: "http://172.31.88.41:16332"
+rpc_auth: "ss:XXXXXXXXXXXXXXXX"
