@@ -1,0 +1,34 @@
+#存放持久化文件、配置文件及日志目录，与docker-comnopose volumes 对应
+# mkdir -p /data/clickhouse/data
+# mkdir -p /data/clickhouse/conf
+# mkdir -p /data/clickhouse/log
+
+version: "3"
+services:
+  clickhouse:
+    image: yandex/clickhouse-server:21.6.8-alpine
+    restart: always
+    container_name: clickhouse-server
+    network_mode: "host"
+    # ports:
+    #   - 8123:8123
+    #   - 9009:9009
+    #   - 9090:9090
+    #   - 9000:9000
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    volumes:
+      - /data/clickhouse/data:/var/lib/clickhouse
+      - /data/clickhouse/conf:/etc/clickhouse-server
+      - /data/clickhouse/log:/var/log
+    user: "101"
+    labels:
+      - "name=ck-main"
+    logging:
+      driver: "json-file"
+      options:
+        labels: "name"
+        max-size: "1g"
+        max-file: "3"

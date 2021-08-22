@@ -1,0 +1,22 @@
+[bsv@sensible clickhouse]$ sh clickhouse-backup.sh create
+2021/08/08 00:43:26  info done                      backup=2021-08-08T00-43-25 operation=create table=bsv.blk
+2021/08/08 00:43:26  info done                      backup=2021-08-08T00-43-25 operation=create table=bsv.blk_codehash_height
+2021/08/08 00:43:26  info done                      backup=2021-08-08T00-43-25 operation=create table=bsv.blk_height
+2021/08/08 00:43:27  info done                      backup=2021-08-08T00-43-25 operation=create table=bsv.blktx_height
+2021/08/08 00:43:28  info done                      backup=2021-08-08T00-43-25 operation=create table=bsv.tx_height
+2021/08/08 00:43:29  info done                      backup=2021-08-08T00-43-25 operation=create table=bsv.txin
+2021/08/08 00:43:30  info done                      backup=2021-08-08T00-43-25 operation=create table=bsv.txin_address_height
+2021/08/08 00:43:30  info done                      backup=2021-08-08T00-43-25 operation=create table=bsv.txin_genesis_height
+2021/08/08 00:43:31  info done                      backup=2021-08-08T00-43-25 operation=create table=bsv.txin_spent
+2021/08/08 00:43:32  info done                      backup=2021-08-08T00-43-25 operation=create table=bsv.txout
+2021/08/08 00:43:33  info done                      backup=2021-08-08T00-43-25 operation=create table=bsv.txout_address_height
+2021/08/08 00:43:34  info done                      backup=2021-08-08T00-43-25 operation=create table=bsv.txout_genesis_height
+2021/08/08 00:43:34  info done                      backup=2021-08-08T00-43-25 operation=create table=bsv.txout_spent_height
+2021/08/08 00:43:34  info done                      backup=2021-08-08T00-43-25 operation=create
+
+[bsv@sensible clickhouse]$ sh clickhouse-backup.sh list local
+2021-08-08T00-43-25   373.54GiB   08/08/2021 00:43:34   local
+
+[bsv@sensible clickhouse]$ sh clickhouse-backup.sh restore 2021-08-08T00-43-25
+
+block: 680000
