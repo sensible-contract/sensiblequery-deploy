@@ -1,0 +1,23 @@
+# 描述 Compose 文件的版本信息
+version: "3.8"
+
+# 定义服务，可以多个
+services:
+  redis:
+    image: redis:6.2.0-alpine
+    user: "990"
+    container_name: redis
+    restart: always
+    network_mode: "host"
+    volumes:
+      - /data/redis/node:/data
+    command: redis-server /data/redis.conf
+    labels:
+      - "name=rds"
+    logging:
+      driver: "json-file"
+      options:
+        labels: "name"
+        max-size: "1g"
+        max-file: "3"
+
