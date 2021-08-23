@@ -20,12 +20,25 @@ sensiblequery环境部署
 
 建议使用非root账户启动节点程序。
 
+### 关键配置修改
+
+* bitcoin.conf
+
+    rpcuser=ss
+    rpcpassword=XXXXXXXXXXXXXXXX
+
+
 # 安装frpc
 
 按`/etc/frp/frpc.ini`配置启动frpc转发代理，将bitcoin node远程暴露到香港节点。
 
 如果直接从本机暴露则不用安装frpc。
 
+### 关键配置修改
+
+* frpc.ini
+
+    token = XXXXXXXXXXXXXXXX
 
 ## 安装docker
 
@@ -69,6 +82,23 @@ sensiblequery环境部署
     # 放入后台，进行连续同步
     docker-compose up -d
 
+### 关键配置修改
+
+* 内网IP(172.31.88.41)需要替换成正确地址
+* chain.yaml
+
+    zmq: "tcp://172.31.88.41:16331"
+    rpc: "http://172.31.88.41:16332"
+    rpc_auth: "ss:XXXXXXXXXXXXXXXX"
+
+* db.yaml
+
+    address: "172.31.88.41:9000"
+    database: "bsv"
+
+* redis.yaml
+
+    addrs: ["172.31.88.41:6379"]
 
 ## 运行sensiblequery
 
@@ -76,6 +106,23 @@ sensiblequery环境部署
 
     cd /data/sensiblequery
     docker-compose up -d
+
+### 关键配置修改
+
+* 内网IP(172.31.88.41)需要替换成正确地址
+* chain.yaml
+
+    rpc: "http://172.31.88.41:16332"
+    rpc_auth: "ss:XXXXXXXXXXXXXXXX"
+
+* db.yaml
+
+    address: "172.31.88.41:9000"
+    database: "bsv"
+
+* redis.yaml
+
+    addrs: ["172.31.88.41:6379"]
 
 
 ## 安装filebeat容器日志收集
