@@ -64,6 +64,18 @@ sensiblequery环境部署
 
 ## 运行sensibled
 
+首先需要拉取镜像：
+
+    docker-compose pull
+
+或自行使用项目文件打包镜像(https://github.com/sensible-contract/sensibled/tree/sensibled):
+
+    git clone https://github.com/sensible-contract/sensibled
+    cd sensibled
+    git checkout sensibled
+    docker-compose build
+
+
 同步分了3个阶段执行， 先初始化；再分批同步；最后连续同步。
 
 
@@ -101,6 +113,17 @@ sensiblequery环境部署
     addrs: ["172.31.88.41:6379"]
 
 ## 运行sensiblequery
+
+首先需要拉取镜像：
+
+    docker-compose pull
+
+或者自行使用项目文件打包镜像(https://github.com/sensible-contract/sensiblequery):
+
+    git clone https://github.com/sensible-contract/sensiblequery
+    cd sensiblequery
+    docker-compose build
+
 
 在`/data/sensiblequery`目录启动docker容器即可。
 
