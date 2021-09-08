@@ -1,7 +1,7 @@
 version: '3'
 services:
    sensibled:
-     image: jiedo/sensibled:v1.5.4
+     image: jiedo/sensibled:v1.5.8
      entrypoint: ./sensibled
      volumes:
        - /bitcoin/bitcoin-sv-blocks/blocks:/bitcoin/bitcoin-sv-blocks/blocks:ro

@@ -9,12 +9,11 @@ services:
     image: yandex/clickhouse-server:21.6.8-alpine
     restart: always
     container_name: clickhouse-server
-    network_mode: "host"
-    # ports:
-    #   - 8123:8123
-    #   - 9009:9009
-    #   - 9090:9090
-    #   - 9000:9000
+    ports:
+      - 8123:8123
+      - 9009:9009
+      - 9090:9090
+      - 9000:9000
     ulimits:
       nofile:
         soft: 262144
@@ -22,7 +21,7 @@ services:
     volumes:
       - /data/clickhouse/data:/var/lib/clickhouse
       - /data/clickhouse/conf:/etc/clickhouse-server
-      - /data/clickhouse/log:/var/log
+      - /data/clickhouse/log:/var/log/clickhouse-server
     user: "101"
     labels:
       - "name=ck-main"
