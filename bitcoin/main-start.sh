@@ -1,3 +1,4 @@
 #!/usr/bin/env sh
 
-/bitcoin/bitcoin-sv-1.0.8/bin/bitcoind -datadir=/bitcoin/bitcoin-sv-blocks/ -daemon
+cd bitcoin-sv
+docker-compose bitcoind start
