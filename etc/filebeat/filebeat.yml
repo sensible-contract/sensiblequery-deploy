@@ -74,6 +74,20 @@ filebeat.inputs:
   stream: all
   # json.keys_under_root: true
 
+#========================== Filebeat autodiscover ==============================
+
+# Autodiscover allows you to detect changes in the system and spawn new modules
+# or inputs as they happen.
+
+filebeat.autodiscover:
+  # List of enabled autodiscover providers
+  providers:
+    - type: docker
+      templates:
+        - condition:
+            contains:
+              docker.container.labels.filebeat: "enable"
+
 #============================= Filebeat modules ===============================
 
 filebeat.config.modules:
@@ -156,10 +170,13 @@ setup.kibana:
 # Configure what output to use when sending the data collected by the beat.
 
 #-------------------------- Elasticsearch output ------------------------------
-# output.elasticsearch:
-#   enabled: false
-#   # Array of hosts to connect to.
-#   hosts: ["localhost:9200"]
+output.elasticsearch:
+  enabled: true
+  # Array of hosts to connect to.
+  hosts: ["localhost:9200"]
+
+  indices:
+    - index: "sensible-%{+yyyy.MM.dd}"
 
   # Optional protocol and basic auth credentials.
   #protocol: "https"
@@ -180,40 +197,7 @@ setup.kibana:
 
   # Client Certificate Key
   #ssl.key: "/etc/pki/client/cert.key"
-  
-# -------------------------------- File Output ---------------------------------
-output.file:
-  # Boolean flag to enable or disable the output module.
-  enabled: true
 
-  # Configure JSON encoding
-  codec.json:
-    # Pretty-print JSON event
-    pretty: false
-
-    # Configure escaping HTML symbols in strings.
-    #escape_html: false
-
-  # Path to the directory where to save the generated files. The option is
-  # mandatory.
-  path: "/data/logs"
-
-  # Name of the generated files. The default is `filebeat` and it generates
-  # files: `filebeat`, `filebeat.1`, `filebeat.2`, etc.
-  filename: log
-
-  # Maximum size in kilobytes of each file. When this size is reached, and on
-  # every Filebeat restart, the files are rotated. The default value is 10240
-  # kB.
-  rotate_every_kb: 512000
-
-  # Maximum number of files under path. When this number of files is reached,
-  # the oldest file is deleted and the rest are shifted from last to first. The
-  # default is 7 files.
-  number_of_files: 100
-
-  # Permissions to use for file creation. The default is 0600.
-  permissions: 0644
 
 #================================ Processors =====================================
 
@@ -222,6 +206,10 @@ output.file:
 processors:
   - drop_fields:
       fields: ["log", "agent", "host", "input", "ecs"]
+  - decode_json_fields:
+      fields: ["message"]
+      target: "json"
+      overwrite_keys: true
 
 #================================ Logging =====================================
 
