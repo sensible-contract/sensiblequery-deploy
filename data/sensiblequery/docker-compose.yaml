@@ -2,19 +2,28 @@ version: '3'
 services:
 
    sensiblequery:
-     image: jiedo/sensiblequery:v2.2
+     image: jiedo/sensiblequery:v2.6.6
      volumes:
        - ./conf:/data/conf:ro
      ports:
-       - "5555:8000"
+       - "6666:8000"
      restart: always
+     deploy:
+       resources:
+         limits:
+           memory: 2G
+     extra_hosts:
+       - "snode:172.31.88.53"
+       - "sdb:172.31.88.46"
      environment:
        LISTEN: 0.0.0.0:8000
      labels:
+       - "env=a-main"
        - "name=sensiblequery"
+       - "filebeat=enable"
      logging:
        driver: "json-file"
        options:
-         labels: "name"
+         labels: "env,name,filebeat"
          max-size: "1g"
          max-file: "3"
