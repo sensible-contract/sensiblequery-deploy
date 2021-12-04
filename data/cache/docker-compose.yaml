@@ -10,7 +10,7 @@ services:
     ports:
       - 6379:6379
     volumes:
-      - /data/redis/node:/data
+      - /data/cache/node:/data
     command: redis-server /data/redis.conf
     labels:
       - "env=a-main"
