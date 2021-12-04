@@ -1,17 +1,22 @@
 version: '3'
 services:
    sensibled:
-     image: jiedo/sensibled:v1.5.8
+     image: jiedo/sensibled:v1.9.2
      entrypoint: ./sensibled -full -end 100000
+     extra_hosts:
+       - "snode:172.31.88.53"
+       - "sdb:172.31.88.46"
      volumes:
-       - /bitcoin/bitcoin-sv-blocks/blocks:/bitcoin/bitcoin-sv-blocks/blocks:ro
+       - /data/bitcoind/data/blocks:/data/blocks:ro
        - ./conf:/data/conf:ro
        - ./cmd:/data/cmd
      labels:
+       - "env=a-main"
        - "name=sensibled-init"
+       - "filebeat=enable"
      logging:
        driver: "json-file"
        options:
-         labels: "name"
+         labels: "env,name,filebeat"
          max-size: "1g"
          max-file: "3"
