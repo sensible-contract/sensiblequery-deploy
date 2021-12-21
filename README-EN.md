@@ -1,45 +1,5 @@
 sensiblequery deployment environment
 
-## Deploy a Bitcoin SV node
-
-Download the node package from `https://download.bitcoinsv.io/bitcoinsv/`, in this case, v1.0.8, and unzip it to `/bitcoin/bitcoin-sv-1.0.8/`.
-
-You can use the follow scripts to startup and shutdown the node software `bitcoind`. Data will be stored in `/bitcoin/bitcoin-sv-blocks/`.
-
-    main-start.sh
-    main-stop.sh
-
-You can execute `bitcoin-cli` like so:
-
-    main.sh getsettings
-
-For `testnet` you can instead use:
-
-    test-start.sh
-    test-stop.sh
-
-It is recommend to use a non-root account to run the node software.
-
-### Configure RPC settings
-
-* bitcoin.conf
-
-    rpcuser=ss
-    rpcpassword=XXXXXXXXXXXXXXXX
-
-
-# Install frpc
-
-Start the FRPC forwarding agent to remotely expose your Bitcoin node to the Hong Kong node according to the settings in `/etc/frp/frpc.ini`.
-
-If the machine is already publicly exposed, there is no need to use FRPC.
-
-### FRPC Key Configuration
-
-* frpc.ini
-
-    token = XXXXXXXXXXXXXXXX
-
 ## Install Docker
 
 Install Docker and set the data directory to `/data/docker/`.
@@ -48,11 +8,30 @@ Install Docker and set the data directory to `/data/docker/`.
 
 You can execute the `docker-compose` to run the instance.
 
+## start bitcoind (Bitcoin SV node)
+
+Start the bitcoind container from the `/data/bitcoind` directory.
+
+    cd /data/bitcoind
+    docker-compose up -d
+
+You can execute `bitcoin-cli` like so:
+
+    ./bitcoin-cli.sh getinfo
+
+### Configure RPC settings
+
+* bitcoind/data/bitcoin.conf
+
+    rpcuser=ss
+    rpcpassword=XXXXXXXXXXXXXXXX
+
 ## Start clickhouse
 
 Start the clickhouse container from the `/data/clickhouse` directory.
 
     cd /data/clickhouse
+	# chown -R 101:101 .
     docker-compose up -d
 
 ## Start redis
@@ -60,6 +39,7 @@ Start the clickhouse container from the `/data/clickhouse` directory.
 Start the redis container from the `/data/redis` directory.
 
     cd /data/redis
+    # chown -R 990:990 data
     docker-compose up -d
 
 ## Start sensibled
@@ -68,11 +48,10 @@ First, pull in the image
 
     docker-compose pull
 
-Or build the image from source yourself here: (https://github.com/sensible-contract/sensibled/tree/sensibled):
+Or build the image from source yourself here: (https://github.com/sensible-contract/sensibled):
 
     git clone https://github.com/sensible-contract/sensibled
     cd sensibled
-    git checkout sensibled
     docker-compose build
 
 There are three stages of synchronisation that will occur: Initial synchronisation, batch synchronisation followed by continuous syncrhonisation.
@@ -94,7 +73,10 @@ Execute the following commands from the `/data/sensibled` directory to complete 
 
 ### Key configuration
 
-* The intranet IP address (172.31.88.41) should be replaced with the actual node address.
+The intranet IP address (172.31.88.41) should be replaced with the actual node address.
+
+You also can change `extra_hosts` in docker-compose.yaml.
+
 * chain.yaml
 
     zmq: "tcp://172.31.88.41:16331"
@@ -130,7 +112,10 @@ Start the docker image from the `/data/sensiblequery`directory.
 
 ### Key configuration
 
-* Intranet IP address (172.31.88.41  should be replaced with the actual node address.
+Intranet IP address (172.31.88.41  should be replaced with the actual node address.
+
+You also can change `extra_hosts` in docker-compose.yaml.
+
 * chain.yaml
 
     rpc: "http://172.31.88.41:16332"
@@ -145,6 +130,10 @@ Start the docker image from the `/data/sensiblequery`directory.
 
     addrs: ["172.31.88.41:6379"]
 
+* cache.yaml
+
+    addr: "172.31.88.41:6380"
+
 
 ## Filebeat logger settings
 
@@ -155,6 +144,18 @@ Container logs will be lost after restart and will need to be persisted if you w
 # Install nginx
 
 Settings are configurable in `/etc/nginx/conf.d/`.
+
+# Install frpc
+
+Start the FRPC forwarding agent to remotely expose your Bitcoin node to the Hong Kong node according to the settings in `/etc/frp/frpc.ini`.
+
+If the machine is already publicly exposed, there is no need to use FRPC.
+
+### FRPC Key Configuration
+
+* frpc.ini
+
+    token = XXXXXXXXXXXXXXXX
 
 
 ## Caution

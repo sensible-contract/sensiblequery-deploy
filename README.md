@@ -1,65 +1,45 @@
 sensiblequery环境部署
 
-## 部署Bitcoin SV节点
-
-从`https://download.bitcoinsv.io/bitcoinsv/`下载节点程序包。这里以1.0.8为例，解压缩到`/bitcoin/bitcoin-sv-1.0.8/`目录。
-
-可使用如下脚本启动或停止节点程序`bitcoind`，数据文件将被放置在`/bitcoin/bitcoin-sv-blocks/`：
-
-    main-start.sh
-    main-stop.sh
-
-可用如下程序执行`bitcoin-cli`命令：
-
-    main.sh getsettings
-
-`testnet`同理。只需执行：
-
-    test-start.sh
-    test-stop.sh
-
-建议使用非root账户启动节点程序。
-
-### 关键配置修改
-
-* bitcoin.conf
-
-    rpcuser=ss
-    rpcpassword=XXXXXXXXXXXXXXXX
-
-
-# 安装frpc
-
-按`/etc/frp/frpc.ini`配置启动frpc转发代理，将bitcoin node远程暴露到香港节点。
-
-如果直接从本机暴露则不用安装frpc。
-
-### 关键配置修改
-
-* frpc.ini
-
-    token = XXXXXXXXXXXXXXXX
-
 ## 安装docker
 
-安装docker，并将docker的数据文件设置到`/data/docker/`目录。
+安装docker。将docker的数据文件设置到`/data/docker/`目录(可选)。
 
 ## 安装docker-compose
 
 程序启动全部使用`docker-compose`管理。
 
+## 运行bitcoind (Bitcoin SV节点)
+
+在`/data/bitcoind`目录启动docker容器即可。
+
+    cd /data/bitcoind
+    docker-compose up -d
+
+可用如下程序执行`bitcoin-cli`命令：
+
+    ./bitcoin-cli.sh getinfo
+
+### 关键配置修改
+
+* bitcoind/data/bitcoin.conf
+
+    rpcuser=ss
+    rpcpassword=XXXXXXXXXXXXXXXX
+
 ## 运行clickhouse
 
-在`/data/clickhouse`目录启动docker容器即可。
+在`/data/clickhouse`目录启动docker容器即可。注意所有目录权限需要设置成用户101(clickhouse)。
 
     cd /data/clickhouse
+	# chown -R 101:101 .
     docker-compose up -d
 
 ## 运行redis
 
-在`/data/redis`目录启动docker容器即可。
+在`/data/redis`目录启动docker容器即可，注意data目录权限需要设置成用户990(redis)。
 
     cd /data/redis
+	# chown -R 990:990 data
     docker-compose up -d
 
 ## 运行sensibled
@@ -68,11 +48,10 @@ sensiblequery环境部署
 
     docker-compose pull
 
-或自行使用项目文件打包镜像(https://github.com/sensible-contract/sensibled/tree/sensibled):
+或自行使用项目文件打包镜像(https://github.com/sensible-contract/sensibled):
 
     git clone https://github.com/sensible-contract/sensibled
     cd sensibled
-    git checkout sensibled
     docker-compose build
 
 
@@ -96,7 +75,8 @@ sensiblequery环境部署
 
 ### 关键配置修改
 
-* 内网IP(172.31.88.41)需要替换成正确地址
+内网IP(172.31.88.41)需要替换成正确地址，可在docker-compose中统一配置extra_hosts。
+
 * chain.yaml
 
     zmq: "tcp://172.31.88.41:16331"
@@ -132,7 +112,8 @@ sensiblequery环境部署
 
 ### 关键配置修改
 
-* 内网IP(172.31.88.41)需要替换成正确地址
+内网IP(172.31.88.41)需要替换成正确地址，可在docker-compose中统一配置extra_hosts。
+
 * chain.yaml
 
     rpc: "http://172.31.88.41:16332"
@@ -147,6 +128,10 @@ sensiblequery环境部署
 
     addrs: ["172.31.88.41:6379"]
 
+* cache.yaml
+
+    addr: "172.31.88.41:6380"
+
 
 ## 安装filebeat容器日志收集
 
@@ -157,6 +142,19 @@ sensiblequery环境部署
 # 安装nginx
 
 按`/etc/nginx/conf.d/`配置文件配置服务。
+
+
+# 安装frpc
+
+按`/etc/frp/frpc.ini`配置启动frpc转发代理，将bitcoin node远程暴露到对外出口机器。
+
+如果直接从本机暴露则不用安装frpc。
+
+### 关键配置修改
+
+* frpc.ini
+
+    token = XXXXXXXXXXXXXXXX
 
 
 ## 注意
