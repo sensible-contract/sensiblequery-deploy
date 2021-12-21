@@ -21,11 +21,12 @@ sensiblequery环境部署
 
 ### 关键配置修改
 
-* bitcoind/data/bitcoin.conf
+* `bitcoind/data/bitcoin.conf` RPC配置。
 
+```
     rpcuser=ss
     rpcpassword=XXXXXXXXXXXXXXXX
-
+```
 ## 运行clickhouse
 
 在`/data/clickhouse`目录启动docker容器即可。注意所有目录权限需要设置成用户101(clickhouse)。
@@ -78,20 +79,20 @@ sensiblequery环境部署
 内网IP(172.31.88.41)需要替换成正确地址，可在docker-compose中统一配置extra_hosts。
 
 * chain.yaml
-
+```
     zmq: "tcp://172.31.88.41:16331"
     rpc: "http://172.31.88.41:16332"
     rpc_auth: "ss:XXXXXXXXXXXXXXXX"
-
+```
 * db.yaml
-
+```
     address: "172.31.88.41:9000"
     database: "bsv"
-
+```
 * redis.yaml
-
+```
     addrs: ["172.31.88.41:6379"]
-
+```
 ## 运行sensiblequery
 
 首先需要拉取镜像：
@@ -115,23 +116,23 @@ sensiblequery环境部署
 内网IP(172.31.88.41)需要替换成正确地址，可在docker-compose中统一配置extra_hosts。
 
 * chain.yaml
-
+```
     rpc: "http://172.31.88.41:16332"
     rpc_auth: "ss:XXXXXXXXXXXXXXXX"
-
+```
 * db.yaml
-
+```
     address: "172.31.88.41:9000"
     database: "bsv"
-
+```
 * redis.yaml
-
+```
     addrs: ["172.31.88.41:6379"]
-
+```
 * cache.yaml
-
+```
     addr: "172.31.88.41:6380"
-
+```
 
 ## 安装filebeat容器日志收集
 
@@ -153,9 +154,9 @@ sensiblequery环境部署
 ### 关键配置修改
 
 * frpc.ini
-
+```
     token = XXXXXXXXXXXXXXXX
-
+```
 
 ## 注意
 

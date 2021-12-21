@@ -22,10 +22,10 @@ You can execute `bitcoin-cli` like so:
 ### Configure RPC settings
 
 * bitcoind/data/bitcoin.conf
-
+```
     rpcuser=ss
     rpcpassword=XXXXXXXXXXXXXXXX
-
+```
 ## Start clickhouse
 
 Start the clickhouse container from the `/data/clickhouse` directory.
@@ -78,20 +78,20 @@ The intranet IP address (172.31.88.41) should be replaced with the actual node a
 You also can change `extra_hosts` in docker-compose.yaml.
 
 * chain.yaml
-
+```
     zmq: "tcp://172.31.88.41:16331"
     rpc: "http://172.31.88.41:16332"
     rpc_auth: "ss:XXXXXXXXXXXXXXXX"
-
+```
 * db.yaml
-
+```
     address: "172.31.88.41:9000"
     database: "bsv"
-
+```
 * redis.yaml
-
+```
     addrs: ["172.31.88.41:6379"]
-
+```
 ## Run sensiblequery
 
 Pull in the docker image：
@@ -117,23 +117,23 @@ Intranet IP address (172.31.88.41  should be replaced with the actual node addre
 You also can change `extra_hosts` in docker-compose.yaml.
 
 * chain.yaml
-
+```
     rpc: "http://172.31.88.41:16332"
     rpc_auth: "ss:XXXXXXXXXXXXXXXX"
-
+```
 * db.yaml
-
+```
     address: "172.31.88.41:9000"
     database: "bsv"
-
+```
 * redis.yaml
-
+```
     addrs: ["172.31.88.41:6379"]
-
+```
 * cache.yaml
-
+```
     addr: "172.31.88.41:6380"
-
+```
 
 ## Filebeat logger settings
 
@@ -154,9 +154,9 @@ If the machine is already publicly exposed, there is no need to use FRPC.
 ### FRPC Key Configuration
 
 * frpc.ini
-
+```
     token = XXXXXXXXXXXXXXXX
-
+```
 
 ## Caution
 
