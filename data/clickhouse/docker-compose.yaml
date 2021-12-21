@@ -1,8 +1,3 @@
-#存放持久化文件、配置文件及日志目录，与docker-comnopose volumes 对应
-# mkdir -p /data/clickhouse/data
-# mkdir -p /data/clickhouse/conf
-# mkdir -p /data/clickhouse/log
-
 version: "3"
 services:
   clickhouse:
@@ -19,9 +14,9 @@ services:
         soft: 262144
         hard: 262144
     volumes:
-      - /data/clickhouse/data:/var/lib/clickhouse
-      - /data/clickhouse/conf:/etc/clickhouse-server
-      - /data/clickhouse/log:/var/log/clickhouse-server
+      - ./data:/var/lib/clickhouse
+      - ./conf:/etc/clickhouse-server
+      - ./log:/var/log/clickhouse-server
     user: "101"
     labels:
       - "name=ck-main"

@@ -1,7 +1,7 @@
 version: '3'
 services:
    sensibled:
-     image: jiedo/sensibled:v1.9.2
+     image: jiedo/sensibled:v1.9.5
      entrypoint: ./sensibled
      extra_hosts:
        - "snode:172.31.88.53"

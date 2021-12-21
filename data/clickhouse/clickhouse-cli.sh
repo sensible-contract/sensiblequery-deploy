@@ -1,1 +1,3 @@
-docker run -it --rm --entrypoint=/bin/bash --privileged=true yandex/clickhouse-server:21.6.8-alpine
+#!/usr/bin/env sh
+
+docker-compose exec clickhouse clickhouse-client
