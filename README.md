@@ -10,6 +10,31 @@ Install Docker and set the data directory to `/data/docker/`.
 
 You can execute the `docker-compose` to run the instance.
 
+
+## One-click start script
+
+First execute start.sh to start all parts except the sensibled component.
+
+     cd /data/
+     sh ./start.sh
+
+Next, you need to wait for bitcoind to complete the block synchronization. You can use the command to view the block information:
+
+     cd /data/bitcoind
+     sh ./bitcoin-cli.sh getinfo
+
+When synchronization is complete, execute sync.sh to start sensibled.
+
+     cd /data/
+     sh ./sync.sh
+
+Once executed, sensiblequery will be served on local port 6666. Note: The initial sync takes 10 hours.
+
+     curl http://localhost:6666
+
+The detailed command is as follows:
+
+
 ## start bitcoind (Bitcoin SV node)
 
 Start the bitcoind container from the `/data/bitcoind` directory.

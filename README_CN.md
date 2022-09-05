@@ -10,6 +10,29 @@ sensiblequery环境部署
 
 程序启动全部使用`docker-compose`管理。
 
+## 一键启动脚本 data/
+
+先执行start.sh启动除sensibled组件之外所有部分。
+
+    cd /data/
+    sh ./start.sh
+
+
+接下来需要等待bitcoind同步完成区块，可使用命令查看区块信息：
+
+    cd /data/bitcoind
+    sh ./bitcoin-cli.sh getinfo
+
+当同步完成，可执行sync.sh开始启动sensibled。
+
+    cd /data/
+    sh ./sync.sh
+
+执行完毕后，sensiblequery将在本地端口6666提供服务。注意：初次同步需要10小时。
+
+	curl http://localhost:6666
+
+详细命令见下：
 
 ## 运行bitcoind (Bitcoin SV节点)
 
