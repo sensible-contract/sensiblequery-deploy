@@ -1,5 +1,5 @@
 # 地址(必需)
-addr: "sdb:6380"
+addr: "cache:6379"
 
 # DB名字
 database: 0

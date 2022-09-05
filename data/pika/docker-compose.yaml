@@ -3,18 +3,18 @@ version: "3.8"
 
 # 定义服务，可以多个
 services:
-  redis:
-    image: redis:6.2.0-alpine
+  pika:
+    image: pikadb/pika:v3.3.6
     user: "1000:1000"
     restart: always
     # ports:
-    #   - 6380:6379
+    #   - 10921:9221
     volumes:
       - ./data:/data
-    command: redis-server /data/redis.conf
+    command: pika -c /data/pika.conf
     labels:
       - "env=main"
-      - "name=cache-main"
+      - "name=pika-main"
       - "filebeat=enable"
     logging:
       driver: "json-file"

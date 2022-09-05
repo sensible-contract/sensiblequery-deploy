@@ -1,2 +1,2 @@
-rpc: "http://snode:16332"
+rpc: "http://bitcoind:8332"
 rpc_auth: "ss:XXXXXXXXXXXXXXXX"

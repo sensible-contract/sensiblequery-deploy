@@ -5,16 +5,16 @@ version: "3.8"
 services:
   redis:
     image: redis:6.2.0-alpine
-    user: "990"
+    user: "1000:1000"
     restart: always
-    ports:
-      - 6379:6379
+    # ports:
+    #   - 6379:6379
     volumes:
-      - /data/redis/node:/data
+      - ./data:/data
     command: redis-server /data/redis.conf
     labels:
-      - "env=a-main"
-      - "name=rds-main"
+      - "env=main"
+      - "name=redis-main"
       - "filebeat=enable"
     logging:
       driver: "json-file"

@@ -1,7 +1,7 @@
 # 地址(必需). 多值用逗号分隔
-address: "sdb:9000"
+address: "clickhouse:9000"
 # DB名字(必需)
-database: "bsv"
+database: "default"
 # 用户名(可选)
 username: ""
 # 密码(可选)

@@ -1,6 +1,6 @@
 # 地址(必需)
 # 目前同时兼容redis cluster和single-node。addrs配置单个地址将视为single-node。
-addrs: ["sdb:6379"]
+addrs: ["redis:6379"]
 
 # DB名字(仅single node需要)
 database: 0

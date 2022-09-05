@@ -1,0 +1,47 @@
+port : 9221
+thread-num : 1
+thread-pool-size : 12
+sync-thread-num : 6
+log-path : /data/log/
+db-path : /data/db/
+write-buffer-size : 268435456
+arena-block-size :
+timeout : 3600
+requirepass :
+masterauth :
+userpass :
+userblacklist :
+instance-mode : classic
+databases : 1
+default-slot-num : 1024
+replication-num : 0
+consensus-level : 0
+dump-prefix :
+dump-path : /data/dump/
+dump-expire : 0
+pidfile : /data/pika.pid
+maxclients : 20000
+target-file-size-base : 20971520
+expire-logs-days : 7
+expire-logs-nums : 10
+root-connection-num : 2
+slowlog-write-errorlog : no
+slowlog-log-slower-than : 10000
+slowlog-max-len : 128
+db-sync-path : /data/dbsync/
+db-sync-speed : -1
+slave-priority : 100
+sync-window-size : 9000
+max-conn-rbuf-size : 268435456
+write-binlog : yes
+binlog-file-size : 104857600
+max-cache-statistic-keys : 0
+small-compaction-threshold : 5000
+max-write-buffer-size : 10737418240
+max-write-buffer-number : 2
+max-client-response-size : 1073741824
+compression : snappy
+max-background-flushes : 1
+max-background-compactions : 2
+max-cache-files : 5000
+max-bytes-for-level-multiplier : 10

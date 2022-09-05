@@ -1,20 +1,20 @@
 version: "3"
 services:
   bitcoind:
-    image: jiedo/bitcoin-sv-1.0.10:v4
+    image: jiedo/bitcoin-sv-1.0.11:v1
     # specify additional command line arguments here
-    entrypoint: ["bitcoind", "-datadir=/data/", "-printtoconsole"]
+    entrypoint: ["bitcoind", "-datadir=/data/"]
     command: ""
     healthcheck:
       test: ["CMD", "bitcoin-cli", "-datadir=/data/", "getblockchaininfo"]
-    ports:
-      # change to 18333 if running testnet
-      - "10333:8333"
-      # JSON-RPC
-      - "10332:8332"
-      # ZMQ
-      - "10330:18330"
-      - "10331:18331"
+    # ports:
+    #   # change to 18333 if running testnet
+    #   - "10333:8333"
+    #   # JSON-RPC
+    #   - "10332:8332"
+    #   # ZMQ
+    #   - "10330:18330"
+    #   - "10331:18331"
     volumes:
       # using a custom path for data dir
       - ./data:/data

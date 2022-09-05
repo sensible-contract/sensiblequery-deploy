@@ -1,5 +1,7 @@
 sensiblequery deployment environment
 
+Recommended OS: centos7+ / ubuntu 18.04+
+
 ## Install Docker
 
 Install Docker and set the data directory to `/data/docker/`.
@@ -39,13 +41,28 @@ Start the clickhouse container from the `/data/clickhouse` directory.
 Start the redis container from the `/data/redis` directory.
 
     cd /data/redis
-    # chown -R 990:990 data
     docker-compose up -d
+
+## Start redis-cache
+
+Start the cache container from the `/data/cache` directory.
+
+    cd /data/cache
+    docker-compose up -d
+
+## Start pika
+
+Start the pika container from the `/data/pika` directory.
+
+    cd /data/pika
+    docker-compose up -d
+
 
 ## Start sensibled
 
 First, pull in the image
 
+    cd /data/sensibled
     docker-compose pull
 
 Or build the image from source yourself here: (https://github.com/sensible-contract/sensibled):
@@ -60,11 +77,11 @@ Execute the following commands from the `/data/sensibled` directory to complete 
 
     cd /data/sensibled
 
-    # Initialisation
+    # Initialisation, > 10 minutes
     docker-compose -f docker-compose-init.yaml up
     ...
 
-    # Batch synchronisation
+    # Batch synchronisation, > 10 hours
     docker-compose -f docker-compose-batch.yaml up
     ...
 
@@ -92,10 +109,16 @@ You also can change `extra_hosts` in docker-compose.yaml.
 ```
     addrs: ["172.31.88.41:6379"]
 ```
+* pika.yaml
+```
+    addrs: ["172.31.88.41:9221"]
+```
+
 ## Run sensiblequery
 
 Pull in the docker image：
 
+    cd sensiblequery
     docker-compose pull
 
 Or build it yourself from source (https://github.com/sensible-contract/sensiblequery):
@@ -130,33 +153,32 @@ You also can change `extra_hosts` in docker-compose.yaml.
 ```
     addrs: ["172.31.88.41:6379"]
 ```
+* pika.yaml
+```
+    addrs: ["172.31.88.41:9221"]
+```
 * cache.yaml
 ```
     addr: "172.31.88.41:6380"
 ```
 
-## Filebeat logger settings
-
-Settings are configurable in `/etc/filebeat/filebeat.yaml`
-
-Container logs will be lost after restart and will need to be persisted if you want to keep them.
-
 # Install nginx
 
 Settings are configurable in `/etc/nginx/conf.d/`.
 
-# Install frpc
+## Deployment resource requirements
 
-Start the FRPC forwarding agent to remotely expose your Bitcoin node to the Hong Kong node according to the settings in `/etc/frp/frpc.ini`.
+| deploy               | DISK(minimum) | DISK(recommended) | MEM(minimum) | MEM(recommended) |
+|----------------------|---------------|-------------------|--------------|------------------|
+| sensiblequery        | 10 GB         | 20 GB             | 1 GB         | 4 GB             |
+| bsv-node + sensibled | 512 GB        | 1000 GB           | 16 GB        | 32 GB            |
+| clickhouse           | 1000 GB       | 1500 GB           | 16 GB        | 32 GB            |
+| redis x 1            | 20 GB         | 50 GB             | 16 GB        | 32 GB            |
+| pika x 1             | 20 GB         | 50 GB             | 4 GB         | 8 GB             |
+| cache x 1            | 10 GB         | 20 GB             | 1 GB         | 2 GB             |
 
-If the machine is already publicly exposed, there is no need to use FRPC.
+Where sensible is used to provide API services to the outside world, multiple instances can be deployed. the mindd is a single-instance run. Redis can deploy single nodes or clusters.
 
-### FRPC Key Configuration
-
-* frpc.ini
-```
-    token = XXXXXXXXXXXXXXXX
-```
 
 ## Caution
 

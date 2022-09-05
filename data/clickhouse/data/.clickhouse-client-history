@@ -1,0 +1,2 @@
+### 2022-09-05 09:17:19.155
+select name, total_rows, total_bytes from system.tables where database='default'
